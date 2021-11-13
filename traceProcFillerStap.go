@@ -15,7 +15,6 @@ import (
 type TraceProcStap struct {
 	tpm     *TraceProcMonitor
 	stdout  io.Reader
-	stderr  io.Reader
 	cmd     *exec.Cmd
 	started sync.Mutex
 	running atomic.Value
@@ -192,7 +191,6 @@ func (tps *TraceProcStap) Start() {
 	cmd.Stdin = bytes.NewBuffer([]byte(execsnoopStapCmd))
 
 	tps.stdout, cmd.Stdout = io.Pipe()
-	tps.stderr, cmd.Stderr = io.Pipe()
 
 	err := cmd.Start()
 	if err != nil {
