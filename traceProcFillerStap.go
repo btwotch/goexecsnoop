@@ -30,6 +30,9 @@ func (tps *TraceProcStap) processEventLine(line string) {
 	if line == "s/" {
 		tps.started.Unlock()
 	} else if strs[0] == "f" {
+		if len(strs) < 3 {
+			return
+		}
 		ppid64, err := strconv.ParseUint(strs[1], 10, 32)
 		if err != nil {
 			panic(err)
@@ -61,6 +64,9 @@ func (tps *TraceProcStap) processEventLine(line string) {
 		tps.tpm.processMapLock.Unlock()
 
 	} else if strs[0] == "e" {
+		if len(strs) < 7 {
+			return
+		}
 		var params []string
 		var cmd string
 
@@ -115,6 +121,9 @@ func (tps *TraceProcStap) processEventLine(line string) {
 		tps.tpm.processMapLock.Unlock()
 
 	} else if strs[0] == "x" {
+		if len(strs) < 3 {
+			return
+		}
 		pid64, err := strconv.ParseUint(strs[1], 10, 32)
 		if err != nil {
 			panic(err)
